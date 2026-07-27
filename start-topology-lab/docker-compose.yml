@@ -1,0 +1,47 @@
+services:
+  hub:
+    image: alpine:latest
+    container_name: hub
+    networks:
+      - star-network
+    command: >
+      sh -c "apk add --no-cache iputils &&
+          echo 'hub is running...'&&
+          sleep infinity"
+    restart: unless-stopped
+  node1:
+    image: alpine:latest
+    container_name: node1
+    networks:
+      - star-network
+    command: >
+      sh -c "apk add --no-cache iputils &&
+          sleep infinity"
+    depends_on:
+      - hub
+  node2:
+    image: alpine:latest
+    container_name: node2
+    networks:
+      - star-network
+    command: >
+      sh -c "apk add --no-cache iputils &&
+          sleep infinity"
+    depends_on:
+      - hub
+  node3:
+    image: alpine:latest
+    container_name: node3
+    networks:
+      - star-network
+    command: >
+      sh -c "apk add --no-cache iputils &&
+          sleep infinity"
+    depends_on:
+      - hub
+networks:
+    star-network:
+      driver: bridge
+      ipam:
+        config:
+          - subnet: 172.20.0.0/24
